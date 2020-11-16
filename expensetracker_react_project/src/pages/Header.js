@@ -18,7 +18,7 @@ class Header extends Component{
                                 <Link className="nav-link" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/expense">All Expenses</Link>
+                                <Link className="nav-link" to="/api/expense">All Expenses</Link>
                             </li>
 
                             </ul>
@@ -26,7 +26,7 @@ class Header extends Component{
                     </nav>
 
 
-                    <Route exact path="/expense" component={Expenses}></Route>
+                    <Route exact path="/api/expense" component={Expenses}></Route>
                 </div>
             </Router>
 

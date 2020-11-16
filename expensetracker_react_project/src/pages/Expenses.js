@@ -19,7 +19,7 @@ class Expenses extends Component{
     // }
 
     componentDidMount(){
-        Axios.get('/expense')
+        Axios.get('/api/expense')
         .then(response=>{
             this.setState({expenses_list:response.data});
         });
