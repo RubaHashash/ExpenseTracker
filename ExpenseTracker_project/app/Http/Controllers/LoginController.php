@@ -25,7 +25,7 @@ class LoginController extends Controller
         $user = User::where('email', $email)->first();
         
         if($user != null && (Hash::check($password, $user->password))){
-            $response = array('status'=>'Success','message'=>'Logged in Successfully');
+            $response = array('status'=>'Success','message'=>'Logged in Successfully','user'=>$user);
         }
         else{
             $response = array('status'=>'Failed','message'=>'Logged in Failed');
