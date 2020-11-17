@@ -73,7 +73,7 @@ class Register extends Component {
         }
 
         return(
-           <div className="card" style={{ width: "34%", marginLeft: "30%" }}>
+           <div className="card" style={{ width: "34%", marginLeft: "30%", marginTop: "100px", marginBottom: "50px"}}>
              <h5 className="card-header info-color white-text text-center py-4">
                <strong>Sign up</strong>
              </h5>
@@ -105,7 +105,11 @@ class Register extends Component {
                
    
                <button className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
-                        type="submit" style={{ margin: "20px" }}>Sign in</button>
+                        type="submit" style={{ margin: "20px" }}>Register Now</button>
+
+                <p>Already have an account?
+                    <a href="/Login" style={{ marginLeft: "7px" }}>Sign in</a>
+                </p>
                </form>
              </div>
            

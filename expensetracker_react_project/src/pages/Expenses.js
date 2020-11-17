@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import Header from './Header';
 
 
 class Expenses extends Component{
@@ -28,6 +29,7 @@ class Expenses extends Component{
     render(){
         return(
             <div>
+                <Header />
                 <br></br>
                 <table class="table table-striped" style={{ width: "70%", marginLeft: "170px" }}>
                 <thead>

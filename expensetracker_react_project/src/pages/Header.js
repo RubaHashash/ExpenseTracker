@@ -15,18 +15,20 @@ class Header extends Component{
                         <div className="collapse navbar-collapse" id="navbarNav">
                             <ul className="navbar-nav">
                             <li className="nav-item active">
-                                <Link className="nav-link" to="/">Home</Link>
+                                <a className="nav-link" href="/"></a>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/api/expense">All Expenses</Link>
+                                <a className="nav-link" href="/Expenses">All Expenses</a>
+                            </li>
+
+                            <li className="nav-item">
+                                <a className="nav-link" href="/Login">Logout</a>
                             </li>
 
                             </ul>
                         </div>
                     </nav>
 
-
-                    <Route exact path="/api/expense" component={Expenses}></Route>
                 </div>
             </Router>
 

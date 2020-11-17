@@ -2,23 +2,25 @@ import React, {useEffect,useState} from 'react';
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
-import {Route, Router} from "react-router-dom";
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 
-import Header from './pages/Header';
+
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Expenses from './pages/Expenses';
+
 
 function App() {
 
   return (
     <div className="App">
-      <Header />
-      <Register />
       
       <Router>
-        <Route path="./pages/Expenses" exact component = {Expenses}/>
+        <Route path="/" exact component={Login}/>
+        <Route path="/login" exact component={Login}/>
+        <Route path="/Register" exact component={Register}/>
+        <Route path="/Expenses" exact component = {Expenses}/>
       </Router>
 
     </div>
