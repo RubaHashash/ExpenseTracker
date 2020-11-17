@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function AddCategory(Request $request){
 
         Validator::make($request->all(), [
-            'category_name' => ['required','string', 'max:255', 'unique: categories']
+            'category_name' => ['required','string', 'max:255','unique:categories']
         ])->validate();
 
         $name = $request->get('category_name');
