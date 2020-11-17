@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CategoryController;
 
 
 /*
@@ -27,4 +28,6 @@ Route::get('/expense', [ExpenseController::class,"viewExpenses"]);
 Route::post('/register', [RegisterController::class,'Register']);
 
 Route::post('/login', [LoginController::class,'Login']);
+
+Route::post('/category/add',[CategoryController::class, 'AddCategory']);
 
