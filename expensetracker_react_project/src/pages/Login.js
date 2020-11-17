@@ -45,6 +45,7 @@ class Login extends Component {
          this.setState({
            flag: true
          });
+         localStorage.setItem('email', response.data.user.email);
        }
    })
    .catch(error => {
@@ -63,7 +64,7 @@ class Login extends Component {
 
     render() {
       const {data} = this.state;
-      if(this.state.flag == true){
+      if(this.state.flag == true || localStorage.getItem('email')){
         return( <Redirect to={'/Expenses'} /> )
       }
         return(

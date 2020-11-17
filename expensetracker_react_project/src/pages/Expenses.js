@@ -2,6 +2,8 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import Header from './Header';
+import {Redirect} from 'react-router-dom';
+
 
 
 class Expenses extends Component{
@@ -27,6 +29,9 @@ class Expenses extends Component{
     }
 
     render(){
+        if(localStorage.getItem('email') == null){
+            return( <Redirect to={'/Login'} /> )
+        }
         return(
             <div>
                 <Header />

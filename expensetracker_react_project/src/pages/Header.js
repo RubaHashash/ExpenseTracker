@@ -20,9 +20,15 @@ class Header extends Component{
                             <li className="nav-item">
                                 <a className="nav-link" href="/Expenses">All Expenses</a>
                             </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/Expenses">Add Expense</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/AddCategory">Add Category</a>
+                            </li>
 
                             <li className="nav-item">
-                                <a className="nav-link" href="/Login">Logout</a>
+                                <a className="nav-link" href="/Logout">Logout</a>
                             </li>
 
                             </ul>

@@ -69,7 +69,7 @@ class Register extends Component {
 
         const {data} = this.state;
         if(this.state.flag == true){
-          return( <Redirect to={'/Expenses'} /> )
+          return( <Redirect to={'/Login'} /> )
         }
 
         return(
