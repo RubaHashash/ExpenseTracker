@@ -77,11 +77,11 @@ class AddExpense extends Component{
 
                     <div className="input-group mb-3">
                     <select className="custom-select" id="inputGroupSelect02" name="exp_category">
-                        <option selected>Choose...</option>
+                        <option defaultValue>Choose...</option>
                         {
                             this.state.categories_list.map(cat=>{
                             return(
-                                <option>{ cat.category_name }</option>
+                                <option key={cat.id}>{ cat.category_name }</option>
                             )
                             })
                         }

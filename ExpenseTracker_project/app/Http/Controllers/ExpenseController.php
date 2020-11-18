@@ -57,4 +57,9 @@ class ExpenseController extends Controller
         return json_encode($response);
     }
 
+    public function destroy($id){
+
+        $expense = Expense::find($id);
+        $expense->delete();
+    }
 }

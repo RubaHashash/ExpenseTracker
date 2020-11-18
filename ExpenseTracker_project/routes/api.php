@@ -34,3 +34,6 @@ Route::post('/category/add',[CategoryController::class, 'AddCategory']);
 Route::get('/getCategory', [ExpenseController::class,"getCategories"]);
 
 Route::post('/addExpense/add', [ExpenseController::class,"AddExpense"]);
+
+Route::delete('/expense/delete/{id}', [ExpenseController::class,"destroy"]);
+

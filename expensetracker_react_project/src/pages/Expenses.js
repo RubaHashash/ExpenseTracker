@@ -21,6 +21,25 @@ class Expenses extends Component{
         });
     }
 
+    onDelete=(event)=>{
+        let index = event.target.getAttribute('data-key');
+        console.log(index);
+        axios.delete('/api/expense/delete/'+index)
+        .then(response=>{
+
+            var expenses = this.state.expenses_list;
+
+            for(var i = 0; i < expenses.length; i++)
+            {
+                if(expenses[i].id == index)
+                {
+                    expenses.splice(i,1);
+                    this.setState({expenses_list:expenses});
+                }
+            }
+        });
+    }
+
     render(){
         if(localStorage.getItem('email') == null){
             return( <Redirect to={'/Login'} /> )
@@ -36,6 +55,8 @@ class Expenses extends Component{
                         <th scope="col">Category</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -47,6 +68,9 @@ class Expenses extends Component{
                                     <td>{exp.category_name}</td>
                                     <td>{exp.amount}</td>
                                     <td>{exp.date}</td>
+                                    <td>
+                                        <a href="#" data-key={exp.id} onClick={this.onDelete}>Delete</a>
+                                    </td>
                             </tr>
                            )
 

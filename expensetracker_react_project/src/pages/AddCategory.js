@@ -67,12 +67,12 @@ class AddCategory extends Component {
                  <h2 style={{ float: "left", marginLeft: "170px", marginBottom: "50px" }}>Add Category</h2>
 
                 <form onSubmit={this.onSubmit} style={{ width: "70%", marginLeft: "170px" }} id="addCatForm">
-                    <div class="form-group">
+                    <div className="form-group">
                         <input type="text" id= "category_name" name="category_name" className="form-control" placeholder= 'Category Name' 
                             value={this.state.category_name} onChange={this.onChangeCategoryName} required/>
                     </div>
 
-                    <div class="form-group" style={{ float: "right", marginTop: "30px" }}>
+                    <div className="form-group" style={{ float: "right", marginTop: "30px" }}>
                         <button type="submit" className="btn btn-primary">Add</button>
                     </div>
                 </form>
