@@ -46,6 +46,7 @@ class Login extends Component {
            flag: true
          });
          localStorage.setItem('email', response.data.user.email);
+         localStorage.setItem('id', response.data.user.id);
        }
    })
    .catch(error => {

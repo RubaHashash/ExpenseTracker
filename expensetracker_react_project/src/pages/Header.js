@@ -21,7 +21,7 @@ class Header extends Component{
                                 <a className="nav-link" href="/Expenses">All Expenses</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/Expenses">Add Expense</a>
+                                <a className="nav-link" href="/AddExpense">Add Expense</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="/AddCategory">Add Category</a>

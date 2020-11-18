@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import axios from 'axios';
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import Header from './Header';
@@ -14,15 +14,8 @@ class Expenses extends Component{
         }
     }
 
-    // componentDidMount = () =>{
-    //     fetch('/expense')
-    //     .then(response => response.json())
-    //     .then(data => this.setState({expenses_list:data}));
-
-    // }
-
     componentDidMount(){
-        Axios.get('/api/expense')
+        axios.get('/api/expense')
         .then(response=>{
             this.setState({expenses_list:response.data});
         });
@@ -36,7 +29,7 @@ class Expenses extends Component{
             <div>
                 <Header />
                 <br></br>
-                <table class="table table-striped" style={{ width: "70%", marginLeft: "170px" }}>
+                <table className="table table-striped" style={{ width: "70%", marginLeft: "170px" }}>
                 <thead>
                     <tr>
                         <th scope="col"></th>

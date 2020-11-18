@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import Expenses from './pages/Expenses';
 import AddCategory from './pages/AddCategory';
 import Logout from './pages/Logout';
+import AddExpense from './pages/AddExpense';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/Register" exact component={Register}/>
         <Route path="/Expenses" exact component = {Expenses}/>
         <Route path="/AddCategory" exact component = {AddCategory}/>
+        <Route path="/AddExpense" exact component = {AddExpense}/>
 
       </Router>
 
