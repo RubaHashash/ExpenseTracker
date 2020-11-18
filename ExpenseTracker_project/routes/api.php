@@ -23,11 +23,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/expense', [ExpenseController::class,"viewExpenses"]);
-
 Route::post('/register', [RegisterController::class,'Register']);
 
 Route::post('/login', [LoginController::class,'Login']);
 
+Route::get('/expense', [ExpenseController::class,"viewExpenses"]);
+
 Route::post('/category/add',[CategoryController::class, 'AddCategory']);
 
+Route::get('/getCategory', [ExpenseController::class,"getCategories"]);
+
+Route::post('/addExpense/add', [ExpenseController::class,"AddExpense"]);
