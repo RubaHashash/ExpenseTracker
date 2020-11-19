@@ -37,3 +37,6 @@ Route::post('/addExpense/add', [ExpenseController::class,"AddExpense"]);
 
 Route::delete('/expense/delete/{id}', [ExpenseController::class,"destroy"]);
 
+Route::get('/expense/edit/{id}', [ExpenseController::class,"edit"]);
+
+Route::post('/expense/update/{id}', [ExpenseController::class,"update"]);

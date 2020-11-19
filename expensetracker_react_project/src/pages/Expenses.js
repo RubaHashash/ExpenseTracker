@@ -63,13 +63,14 @@ class Expenses extends Component{
                     {
                         this.state.expenses_list.map(exp=>{
                            return(
-                            <tr>
+                            <tr key={exp.id}>
                                 <th scope="row">1</th>
                                     <td>{exp.category_name}</td>
                                     <td>{exp.amount}</td>
                                     <td>{exp.date}</td>
                                     <td>
-                                        <a href="#" data-key={exp.id} onClick={this.onDelete}>Delete</a>
+                                        <Link to={`/EditExpense/${exp.id}`}>Edit</Link> | 
+                                        <a href="#" data-key={exp.id} onClick={this.onDelete}> Delete</a>
                                     </td>
                             </tr>
                            )

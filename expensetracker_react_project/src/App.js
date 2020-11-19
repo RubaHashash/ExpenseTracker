@@ -12,6 +12,7 @@ import Expenses from './pages/Expenses';
 import AddCategory from './pages/AddCategory';
 import Logout from './pages/Logout';
 import AddExpense from './pages/AddExpense';
+import EditExpense from './pages/EditExpense';
 
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
         <Route path="/Expenses" exact component = {Expenses}/>
         <Route path="/AddCategory" exact component = {AddCategory}/>
         <Route path="/AddExpense" exact component = {AddExpense}/>
+        <Route path="/EditExpense/:id" exact component = {EditExpense}/>
+
 
       </Router>
 

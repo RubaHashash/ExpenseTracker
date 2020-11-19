@@ -5,17 +5,22 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
 class Login extends Component {
-  state = {
+   
+  constructor(){
+    super();
+    this.state = {
 
-    //creating the data variable that holds the email and password to be passed on
-    data: {
-      email: '',
-      password: ''
-    },
-    flag: false,
-    loading: false,
-    errors: {}
-  };
+      //creating the data variable that holds the email and password to be passed on
+      data: {
+        email: '',
+        password: ''
+      },
+      flag: false,
+      loading: false,
+      errors: {}
+    };
+  }
+
 
   //Checks for the change of state and then loads the data entered in the form to the state.
   onChange = e => this.setState({data: {...this.state.data, [e.target.name]: e.target.value}});
@@ -65,11 +70,10 @@ class Login extends Component {
 
     render() {
       const {data} = this.state;
-      if(this.state.flag == true || localStorage.getItem('email')){
+      if(localStorage.getItem('email')){
         return( <Redirect to={'/Expenses'} /> )
       }
         return(
-            <Router>
            <div className="card" style={{ width: "34%", marginLeft: "30%", marginTop: "100px", marginBottom: "50px" }}>
              <h5 className="card-header info-color white-text text-center py-4">
                <strong>Sign In</strong>
@@ -99,8 +103,6 @@ class Login extends Component {
                </form>
              </div>
            </div>
-           </Router>
-
    
         );
     }
