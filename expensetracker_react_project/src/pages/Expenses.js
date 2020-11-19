@@ -15,7 +15,8 @@ class Expenses extends Component{
     }
 
     componentDidMount(){
-        axios.get('/api/expense')
+        let id = localStorage.getItem('id');
+        axios.get('/api/expense/'+id)
         .then(response=>{
             this.setState({expenses_list:response.data});
         });

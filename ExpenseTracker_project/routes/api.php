@@ -27,7 +27,7 @@ Route::post('/register', [RegisterController::class,'Register']);
 
 Route::post('/login', [LoginController::class,'Login']);
 
-Route::get('/expense', [ExpenseController::class,"viewExpenses"]);
+Route::get('/expense/{id}', [ExpenseController::class,"viewExpenses"]);
 
 Route::post('/category/add',[CategoryController::class, 'AddCategory']);
 

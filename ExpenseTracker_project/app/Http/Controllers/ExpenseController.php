@@ -10,11 +10,12 @@ use Illuminate\Http\Request;
 class ExpenseController extends Controller
 {
 
-    public function viewExpenses(){
+    public function viewExpenses($id){
         $expense = Expense::orderBy('created_at','desc')
         ->join('categories','categories.id',"=", "expenses.category_id")
+        ->where('expenses.user_id','=',$id)
         ->select("expenses.*","categories.category_name")->get();
-        // ->where('expenses.user_id','=',$id)
+        
         return json_encode($expense);
     }
 
