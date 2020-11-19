@@ -8,6 +8,7 @@ class AddExpense extends Component{
     constructor(props){
         super(props)
         this.state={
+            flag: false,
             categories_list: [],
         }
     }
@@ -58,16 +59,29 @@ class AddExpense extends Component{
         });
     }
 
+    onChangeExpense= (e)=>{
+        this.setState({
+            expense_list: e.target.value
+        });
+    }
+
+
+
     render(){
         if(localStorage.getItem('email') == null){
             return( <Redirect to={'/Login'} /> )
+        }
+
+        if(this.state.flag == true){
+            return( <Redirect to={'/Expenses'} /> )
         }
         return(
             <div>
                 <Header />
                  <h2 style={{ float: "left", marginLeft: "170px", marginBottom: "50px" }}>Add Expense</h2>
 
-                <form onSubmit={this.onSubmit} style={{ width: "70%", marginLeft: "170px" }} id="addExpForm">
+                <form onSubmit={this.onSubmit} onChange={this.onChangeExpense} 
+                    style={{ width: "70%", marginLeft: "170px" }} id="addExpForm">
                     <div className="form-group">
                         <input type="Date" id= "exp_date" name="exp_date" className="form-control" placeholder= 'Date' required/>
                     </div>

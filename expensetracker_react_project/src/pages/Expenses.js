@@ -64,7 +64,7 @@ class Expenses extends Component{
                         this.state.expenses_list.map(exp=>{
                            return(
                             <tr key={exp.id}>
-                                <th scope="row">1</th>
+                                <th scope="row"></th>
                                     <td>{exp.category_name}</td>
                                     <td>{exp.amount}</td>
                                     <td>{exp.date}</td>
