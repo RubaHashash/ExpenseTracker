@@ -6,6 +6,8 @@ use Illuminate\Validation\ValidationException;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Expense;
+
 
 class CategoryController extends Controller
 {
@@ -25,4 +27,13 @@ class CategoryController extends Controller
 
         return json_encode($response);
     }
+
+    public function viewCategories(){
+
+        $category=Category::select('category_name')->get();
+
+
+        return $category;
+    }
+
 }

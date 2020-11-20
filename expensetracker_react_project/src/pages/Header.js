@@ -17,17 +17,23 @@ class Header extends Component{
                             <li className="nav-item active">
                                 <a className="nav-link" href="/"></a>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item" style={{ marginLeft: "50px", marginRight: "8px" }}>
                                 <a className="nav-link" href="/Expenses">All Expenses</a>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item" style={{ marginRight: "8px" }}>
                                 <a className="nav-link" href="/AddExpense">Add Expense</a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/AddCategory">Add Category</a>
+                            <li className="nav-item" style={{ marginRight: "8px" }}>
+                                <a className="nav-link" href="/ViewCategory">View Categories</a>
                             </li>
 
-                            <li className="nav-item">
+                            <li className="nav-item" style={{ marginRight: "8px" }} >
+                                <a className="nav-link" href="/AddCategory">Add Category</a>
+                            </li>
+                            <li className="nav-item" style={{ marginRight: "8px" }}>
+                                <a className="nav-link" href="/PieChart">Pie Chart</a>
+                            </li>
+                            <li className="nav-item" style={{ marginLeft: "510px" }}>
                                 <a className="nav-link" href="/Logout">Logout</a>
                             </li>
 

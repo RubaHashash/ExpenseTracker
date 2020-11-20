@@ -13,6 +13,8 @@ import AddCategory from './pages/AddCategory';
 import Logout from './pages/Logout';
 import AddExpense from './pages/AddExpense';
 import EditExpense from './pages/EditExpense';
+import ViewCategory from './pages/ViewCategory';
+import PieChart from './pages/PieChart';
 
 
 function App() {
@@ -26,9 +28,12 @@ function App() {
         <Route path="/Logout" exact component={Logout}/>
         <Route path="/Register" exact component={Register}/>
         <Route path="/Expenses" exact component = {Expenses}/>
+        <Route path="/ViewCategory" exact component = {ViewCategory}/>
         <Route path="/AddCategory" exact component = {AddCategory}/>
         <Route path="/AddExpense" exact component = {AddExpense}/>
         <Route path="/EditExpense/:id" exact component = {EditExpense}/>
+        <Route path="/PieChart" exact component = {PieChart}/>
+
 
 
       </Router>
