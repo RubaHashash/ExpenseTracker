@@ -7,6 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Expense;
+use DB;
 
 
 class CategoryController extends Controller
@@ -36,4 +37,14 @@ class CategoryController extends Controller
         return $category;
     }
 
+    public function pieChart($id){
+
+        $categories = Expense::where('expenses.user_id','=',$id)
+        ->join('categories','expenses.category_id','=','categories.id')
+        ->select('categories.category_name',DB::raw("SUM(expenses.amount) as sum"))
+        ->groupBy("expenses.category_id")           
+        ->get();
+
+        return $categories;
+    }
 }
