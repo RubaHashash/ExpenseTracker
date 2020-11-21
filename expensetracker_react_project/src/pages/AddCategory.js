@@ -10,6 +10,7 @@ class AddCategory extends Component {
     constructor(){
         super();
         this.state={
+            flag: false,
             category_name: ''
         }
     }
@@ -61,6 +62,10 @@ class AddCategory extends Component {
         if(localStorage.getItem('email') == null){
             return( <Redirect to={'/Login'} /> )
         }
+        if(this.state.flag == true){
+            return( <Redirect to={'/ViewCategory'} /> )
+
+        }
         return(
             <div>
                 <Header />
@@ -73,7 +78,7 @@ class AddCategory extends Component {
                     </div>
 
                     <div className="form-group" style={{ float: "right", marginTop: "30px" }}>
-                        <button type="submit" className="btn btn-primary">Add</button>
+                        <button type="submit" className="btn btn-secondary">Add</button>
                     </div>
                 </form>
 

@@ -17,7 +17,7 @@ class Header extends Component{
                             <li className="nav-item active">
                                 <a className="nav-link" href="/"></a>
                             </li>
-                            <li className="nav-item" style={{ marginLeft: "50px", marginRight: "8px" }}>
+                            <li className="nav-item" style={{ marginLeft: "30px", marginRight: "8px" }}>
                                 <a className="nav-link" href="/Expenses">All Expenses</a>
                             </li>
                             <li className="nav-item" style={{ marginRight: "8px" }}>

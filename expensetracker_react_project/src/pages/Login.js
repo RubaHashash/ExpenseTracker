@@ -94,7 +94,7 @@ class Login extends Component {
                </div>
    
 
-               <button className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
+               <button className="btn btn-outline-secondary btn-rounded btn-block my-4 waves-effect z-depth-0 "
                         type="submit" style={{ margin: "20px" }}>Login</button>
 
                 <p>Not registered?

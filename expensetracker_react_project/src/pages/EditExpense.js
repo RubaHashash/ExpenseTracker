@@ -118,7 +118,7 @@ class EditExpense extends Component{
                     </div>
 
                     <div className="form-group" style={{ float: "right", marginTop: "30px" }}>
-                        <button type="submit" className="btn btn-primary">Edit</button>
+                        <button type="submit" className="btn btn-secondary">Edit</button>
                     </div>
                 </form>
 

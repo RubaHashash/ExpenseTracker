@@ -107,7 +107,7 @@ class AddExpense extends Component{
                     </div>
 
                     <div className="form-group" style={{ float: "right", marginTop: "30px" }}>
-                        <button type="submit" className="btn btn-primary">Add</button>
+                        <button type="submit" className="btn btn-secondary">Add</button>
                     </div>
                 </form>
 
