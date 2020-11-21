@@ -31,7 +31,7 @@ class CategoryController extends Controller
 
     public function viewCategories(){
 
-        $category=Category::select('category_name')->get();
+        $category=Category::orderBy('created_at','desc')->select('category_name')->get();
 
 
         return $category;
