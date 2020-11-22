@@ -17,6 +17,7 @@ class Expenses extends Component{
         this.state={
             expenses_list: [],
             categories_list: [],
+            edit_expense_list: [],
             flag: false,
             sort: (a, b) => a.id < b.id ? 1 : -1,
             chartData: [],
@@ -42,6 +43,67 @@ class Expenses extends Component{
         this.getExpensesFromDB();
 
 
+        this.getChart();
+    }
+
+    getEditFormFromDB = (event) =>{
+        let index = event.target.getAttribute('data-key');
+
+        axios.get('/api/expense/edit/'+index)
+        .then(response=>{
+            this.setState({edit_expense_list:response.data});
+        });
+
+        this.handleClickOpen();
+    }
+
+    onChangeEditExpense= (e)=>{
+        this.setState({
+            edit_expense_list: e.target.value
+        });
+    }
+
+    onSubmitEditForm = (e) =>{
+        this.handleClose();
+        e.preventDefault();
+        const index = document.getElementById("edit_id").value;
+        const user = localStorage.getItem('id');
+        const form = document.getElementById("editExpForm");
+        const formData = new FormData(form);
+        formData.append('user',user);
+        const headers = {
+            headers:{
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json',
+                'crossOrigin': true,
+                'Access-Control-Allow-Origin' : '*'
+                }
+            }
+
+        axios.post('/api/expense/update/'+index, formData, headers)
+        .then(response => {
+            this.setState({
+                loader: '',
+                status: response.data.message,
+            });
+            if(response.data.status === "Success"){
+              this.setState({
+                flag: true
+              });
+              
+            }
+        })
+        .catch(error => {
+            if (error.response) {
+                this.setState({
+                    loader: '',
+                    status: '',
+                });
+                console.log(error.response);
+              }
+        });
+
+        this.getExpensesFromDB();
         this.getChart();
     }
 
@@ -103,12 +165,6 @@ class Expenses extends Component{
             loader: '',
             status: response.data.message,
         });
-        if(response.data.status === "Success"){
-        //   this.setState({
-        //     flag: true
-        //   });
-        
-        }
     })
     .catch(error => {
         if (error.response) {
@@ -132,7 +188,6 @@ class Expenses extends Component{
     }
 
   handlePageChange(pageNumber) {
-    // console.log(`active page is ${pageNumber}`);
         let id = localStorage.getItem('id'); 
         axios.get('/api/expense/'+id+'?page='+pageNumber)
         .then(response=>{
@@ -159,7 +214,6 @@ class Expenses extends Component{
 
     onDelete=(event)=>{
         let index = event.target.getAttribute('data-key');
-        console.log(index);
         axios.delete('/api/expense/delete/'+index)
         .then(response=>{
 
@@ -182,10 +236,10 @@ class Expenses extends Component{
         var id = localStorage.getItem('id');
         axios.get('/api/pieChart/'+id)
         .then(response=>{
-          console.log(response.data);
             this.setState({chartData:response.data});
         });
     }
+
 
     render(){
         if(localStorage.getItem('email') == null){
@@ -220,7 +274,9 @@ class Expenses extends Component{
                                         <td>{exp.amount}</td>
                                         <td>{exp.date}</td>
                                         <td>
-                                            <Link to={`/EditExpense/${exp.id}`}>Edit</Link> | 
+                                            {/* <Link to={`/EditExpense/${exp.id}`}>Edit</Link> |  */}
+                                            <a href="#" data-key={exp.id} onClick={this.getEditFormFromDB}>Edit</a> | 
+
                                             <a href="#" data-key={exp.id} onClick={this.onDelete}> Delete</a>
                                         </td>
                                 </tr>
@@ -291,6 +347,54 @@ class Expenses extends Component{
                         </DialogContent>
                     </Dialog>
 
+                    {/* dialog for the edit form */}
+
+                    <Dialog open={this.state.setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Edit Expense</DialogTitle>
+                        <DialogContent>
+
+                        <div>
+
+                        <form onSubmit={this.onSubmitEditForm} onChange={this.onChangeEditExpense} id="editExpForm">
+                            <div className="form-group">
+                                <input type="number" id= "edit_id" name="edit_id" value={this.state.edit_expense_list.id} hidden/>
+                            </div>
+                            <div className="form-group">
+                                <input type="Date" id= "edit_date" name="edit_date" className="form-control" placeholder= 'Date'
+                                    value={this.state.edit_expense_list.date} required/>
+                            </div>
+                            <div className="form-group">
+                                <input type="number" step="0.01" id= "edit_amount" name="edit_amount" className="form-control" 
+                                        placeholder= 'Amount $' value={this.state.edit_expense_list.amount} required/>
+                            </div>
+
+                            <div className="input-group mb-3">
+                            <select className="custom-select" id="inputGroupSelect02" name="edit_category" value={this.state.edit_expense_list.category_name}>
+                                <option>Choose...</option>
+                                {
+                                    this.state.categories_list.map(cat=>{
+                                    return(
+                                        <option key={cat.id}>{ cat.category_name }</option>
+                                    )
+                                    })
+                                }
+                            </select>
+
+                            <div className="input-group-append">
+                                <label className="input-group-text" htmlFor="inputGroupSelect02">Category</label>
+                            </div>
+                            </div>
+
+                            <div className="form-group" style={{ float: "right", marginTop: "30px" }}>
+                                <Button onClick={this.handleClose} color="primary">Cancel</Button>
+
+                                <Button type="submit">Update</Button>
+                            </div>
+                        </form>
+
+                    </div>
+                    </DialogContent>
+                    </Dialog>
 
                     
                     

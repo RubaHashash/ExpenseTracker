@@ -69,16 +69,16 @@ class ExpenseController extends Controller
     public function update(Request $request, $id){
 
         Validator::make($request->all(), [
-            'exp_date' => ['required','date'],
-            'exp_amount'=> ['required','between:0,9999999.99'],
-            'exp_category'=>['required'],
+            'edit_date' => ['required','date'],
+            'edit_amount'=> ['required','between:0,9999999.99'],
+            'edit_category'=>['required'],
         ])->validate();
 
         $expense=Expense::find($id);
-
-        $date = $request->get('exp_date');
-        $amount = $request->get('exp_amount');
-        $category = $request->get('exp_category');
+        
+        $date = $request->get('edit_date');
+        $amount = $request->get('edit_amount');
+        $category = $request->get('edit_category');
         $categoryId = Category::where('category_name',"=", $category)->first();
 
         $expense->date = $date;

@@ -40,7 +40,6 @@ class AddCategory extends Component {
                 loader: '',
                 status: response.data.message,
             });
-            console.log(response.data);
             if(response.data.status === "Success"){
               this.setState({
                 flag: true
