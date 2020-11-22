@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import Header from './Header';
 import PieChart from './PieChart';
 import {Redirect} from 'react-router-dom';
-import Pagination from 'react-paginate';
+import Pagination from 'react-js-pagination';
 
 
 class Expenses extends Component{
@@ -14,13 +14,13 @@ class Expenses extends Component{
             expenses_list: [],
             flag: false,
             sort: (a, b) => a.id < b.id ? 1 : -1,
-            chartData: []
-            // activePage: 1,
-            // itemsCountPerPage: 1,
-            // totalItemsCount: 1,
-            // pageRangeDisplayed: 1
+            chartData: [],
+            activePage: 1,
+            itemsCountPerPage: 1,
+            totalItemsCount: 1,
+            pageRangeDisplayed: 3
         }
-        // this.handlePageChange = this.handlePageChange.bind(this);
+        this.handlePageChange = this.handlePageChange.bind(this);
     }
 
     componentDidMount(){
@@ -28,10 +28,10 @@ class Expenses extends Component{
         axios.get('/api/expense/'+id)
         .then(response=>{
             this.setState({
-                expenses_list:response.data,
-                // itemsCountPerPage: response.data.per_page,
-                // totalItemsCount: response.data.total,
-                // activePage: response.data.current_page
+                expenses_list:response.data.data,
+                itemsCountPerPage: response.data.per_page,
+                totalItemsCount: response.data.total,
+                activePage: response.data.current_page
             });
         });
 
@@ -61,18 +61,19 @@ class Expenses extends Component{
   }
 
 
-    // handlePageChange(pageNumber = 1){
-    //     let id = localStorage.getItem('id');
-    //     axios.get('/api/expense/'+id+'?page='+pageNumber)
-    //     .then(response=>{
-    //         this.setState({
-    //             expenses_list:response.data.data,
-    //             itemsCountPerPage: response.data.per_page,
-    //             totalItemsCount: response.data.total,
-    //             activePage: response.data.current_page
-    //         });
-    //     });
-    // }
+  handlePageChange(pageNumber) {
+    // console.log(`active page is ${pageNumber}`);
+        let id = localStorage.getItem('id'); 
+        axios.get('/api/expense/'+id+'?page='+pageNumber)
+        .then(response=>{
+            this.setState({
+                expenses_list:response.data.data,
+                itemsCountPerPage: response.data.per_page,
+                totalItemsCount: response.data.total,
+                activePage: response.data.current_page
+            });
+        });
+    }
 
     clickFunction = ()=>{
         this.setState({
@@ -122,8 +123,9 @@ class Expenses extends Component{
         return(
             <div>
                 <Header />
-                
-                <div style={{ float: "left", overflow: "hidden", marginLeft: "70px", marginTop: "50px", width: "45%"}}>
+                <h2 style={{ float: "center", marginLeft: "80px" }}>Dashboard</h2>
+
+                <div style={{ float: "left", overflow: "hidden", marginLeft: "70px", marginTop: "25px", width: "45%"}}>
 
                     <table className="table table-striped">
                     <thead>
@@ -158,25 +160,25 @@ class Expenses extends Component{
 
                     </tbody>
                     </table>
-                    <button type="button" class="btn btn-secondary btn-circle btn-l" 
-                        style={{ float: "right", fontSize: "20px", borderRadius: "50%", width: "45px" }} onClick={this.clickFunction}>+</button> 
-
-                    <div>
-                        {/* <Pagination
+                    
+                    <div className="d-flex justify-content-center" style={{ marginTop: "30px" }}>
+                        <Pagination
                             activePage = {this.state.activePage}
                             itemsCountPerPage = {this.state.itemsCountPerPage}
                             totalItemsCount = {this.state.totalItemsCount}
                             pageRangeDisplayed = {this.state.pageRangeDisplayed}
-                            onChange = {this.handlePageChange}
+                            onChange={this.handlePageChange}
                             itemClass='page-item'
                             linkClass = 'page-link'
-                            firstPageText = 'First'
-                            lastPageText = 'last'
-                        /> */}
+                        />
                     </div>
+
+                    <button type="button" className="btn btn-secondary btn-circle btn-l" 
+                        style={{ float: "right", fontSize: "20px", borderRadius: "50%", width: "45px" }} onClick={this.clickFunction}>+</button> 
+
                     
                 </div>
-                <div style={{ float: "left", overflow: "hidden", marginTop: "50px", marginLeft: "20px", width: "45%" }}>
+                <div style={{ float: "left", overflow: "hidden", marginTop: "25px", marginLeft: "20px", width: "45%" }}>
                     <PieChart dataParentToChild = {this.state.chartData}/>
                 </div>
             </div>

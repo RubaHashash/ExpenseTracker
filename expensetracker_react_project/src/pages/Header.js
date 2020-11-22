@@ -8,7 +8,7 @@ class Header extends Component{
         return (
             <Router>
                 <div>
-                    <nav className="navbar navbar-expand-lg navbar-dark bg-secondary" style={{marginBottom: "50px"}}>
+                    <nav className="navbar navbar-expand-lg navbar-dark bg-secondary" style={{marginBottom: "25px"}}>
                         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>

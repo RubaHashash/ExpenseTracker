@@ -14,7 +14,7 @@ class ExpenseController extends Controller
         $expense = Expense::orderBy('created_at','desc')
         ->join('categories','categories.id',"=", "expenses.category_id")
         ->where('expenses.user_id','=',$id)
-        ->select("expenses.*","categories.category_name")->get();
+        ->select("expenses.*","categories.category_name")->paginate(4);
         
         return json_encode($expense);
     }
