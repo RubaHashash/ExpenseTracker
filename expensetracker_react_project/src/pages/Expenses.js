@@ -5,6 +5,10 @@ import Header from './Header';
 import PieChart from './PieChart';
 import {Redirect} from 'react-router-dom';
 import Pagination from 'react-js-pagination';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 class Expenses extends Component{
@@ -12,18 +16,37 @@ class Expenses extends Component{
         super(props)
         this.state={
             expenses_list: [],
+            categories_list: [],
             flag: false,
             sort: (a, b) => a.id < b.id ? 1 : -1,
             chartData: [],
             activePage: 1,
             itemsCountPerPage: 1,
             totalItemsCount: 1,
-            pageRangeDisplayed: 3
+            pageRangeDisplayed: 3,
+            open: false,
+            setOpen: false,
+
         }
         this.handlePageChange = this.handlePageChange.bind(this);
     }
 
     componentDidMount(){
+        // get categories for add category
+        axios.get('/api/getCategory')
+        .then(response=>{
+            this.setState({categories_list:response.data});
+        });
+        
+
+        this.getExpensesFromDB();
+
+
+        this.getChart();
+    }
+
+    getExpensesFromDB = ()=>{
+        // get expenses
         let id = localStorage.getItem('id');
         axios.get('/api/expense/'+id)
         .then(response=>{
@@ -34,8 +57,6 @@ class Expenses extends Component{
                 activePage: response.data.current_page
             });
         });
-
-        this.getChart();
     }
 
     handleAmountSort = () => {
@@ -60,6 +81,55 @@ class Expenses extends Component{
       
   }
 
+  onSubmit = (e) =>{
+    this.handleClose();
+    e.preventDefault();
+    const user = localStorage.getItem('id');
+    const form = document.getElementById("addExpForm");
+    const formData = new FormData(form);
+    formData.append('user',user);
+    const headers = {
+        headers:{
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'crossOrigin': true,
+            'Access-Control-Allow-Origin' : '*'
+            }
+        }
+
+    axios.post('/api/addExpense/add', formData, headers)
+    .then(response => {
+        this.setState({
+            loader: '',
+            status: response.data.message,
+        });
+        if(response.data.status === "Success"){
+        //   this.setState({
+        //     flag: true
+        //   });
+        
+        }
+    })
+    .catch(error => {
+        if (error.response) {
+            this.setState({
+                loader: '',
+                status: '',
+            });
+            console.log(error.response);
+          }
+    });
+
+    this.getExpensesFromDB();
+    this.getChart();
+
+}
+
+  onChangeExpense= (e)=>{
+        this.setState({
+            expense_list: e.target.value
+        });
+    }
 
   handlePageChange(pageNumber) {
     // console.log(`active page is ${pageNumber}`);
@@ -75,11 +145,17 @@ class Expenses extends Component{
         });
     }
 
-    clickFunction = ()=>{
+    handleClickOpen = () => {
         this.setState({
-            flag: true
+            setOpen: true
         });
-    }
+    };
+
+    handleClose = () => {
+        this.setState({
+            setOpen: false
+        });
+    };
 
     onDelete=(event)=>{
         let index = event.target.getAttribute('data-key');
@@ -116,10 +192,6 @@ class Expenses extends Component{
             return( <Redirect to={'/Login'} /> )
         }
 
-        if(this.state.flag == true){
-            return( <Redirect to={'/AddExpense'} /> )
-
-        }
         return(
             <div>
                 <Header />
@@ -174,8 +246,53 @@ class Expenses extends Component{
                     </div>
 
                     <button type="button" className="btn btn-secondary btn-circle btn-l" 
-                        style={{ float: "right", fontSize: "20px", borderRadius: "50%", width: "45px" }} onClick={this.clickFunction}>+</button> 
+                        style={{ float: "right", fontSize: "20px", borderRadius: "50%", width: "45px" }} 
+                        onClick={this.handleClickOpen}>+</button> 
+                    
+                    {/* dialog for the add expense */}
+                    <Dialog open={this.state.setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Add Expense</DialogTitle>
+                        <DialogContent>
 
+                        <div>
+
+                            <form onSubmit={this.onSubmit} onChange={this.onChangeExpense} id="addExpForm">
+                                <div className="form-group">
+                                    <input type="Date" id= "exp_date" name="exp_date" className="form-control" placeholder= 'Date' required/>
+                                </div>
+                                <div className="form-group">
+                                    <input type="number" step="0.01" id= "exp_amount" name="exp_amount" className="form-control" placeholder= 'Amount $' required/>
+                                </div>
+
+                                <div className="input-group mb-3">
+                                <select className="custom-select" id="inputGroupSelect02" name="exp_category">
+                                    <option defaultValue>Choose...</option>
+                                    {
+                                        this.state.categories_list.map(cat=>{
+                                        return(
+                                            <option key={cat.id}>{ cat.category_name }</option>
+                                        )
+                                        })
+                                    }
+                                </select>
+
+                                <div className="input-group-append">
+                                    <label className="input-group-text" htmlFor="inputGroupSelect02">Category</label>
+                                </div>
+                                </div>
+
+                                <div className="form-group" style={{ float: "right", marginTop: "30px" }}>
+                                    <Button onClick={this.handleClose} color="primary">Cancel</Button>
+                                    <Button type="submit">Add Expense</Button>
+                                </div>
+                            </form>
+
+                        </div>
+                        </DialogContent>
+                    </Dialog>
+
+
+                    
                     
                 </div>
                 <div style={{ float: "left", overflow: "hidden", marginTop: "25px", marginLeft: "20px", width: "45%" }}>
