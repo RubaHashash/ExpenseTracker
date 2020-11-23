@@ -5,15 +5,14 @@ import './App.css';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 
-
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Expenses from './pages/Expenses';
-import AddCategory from './pages/AddCategory';
 import Logout from './pages/Logout';
 import AddExpense from './pages/AddExpense';
 import EditExpense from './pages/EditExpense';
 import ViewCategory from './pages/ViewCategory';
+import MyCategory from './pages/MyCategory';
 
 
 function App() {
@@ -28,7 +27,7 @@ function App() {
         <Route path="/Register" exact component={Register}/>
         <Route path="/Expenses" exact component = {Expenses}/>
         <Route path="/ViewCategory" exact component = {ViewCategory}/>
-        <Route path="/AddCategory" exact component = {AddCategory}/>
+        <Route path="/MyCategory" exact component = {MyCategory}/>
         <Route path="/AddExpense" exact component = {AddExpense}/>
         <Route path="/EditExpense/:id" exact component = {EditExpense}/>
 

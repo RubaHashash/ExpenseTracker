@@ -43,4 +43,10 @@ Route::post('/expense/update/{id}', [ExpenseController::class,"update"]);
 
 Route::get('/categories',[CategoryController::class, 'viewCategories']);
 
+Route::get('/categories/{id}',[CategoryController::class, 'viewCategoriesbyID']);
+
 Route::get('/pieChart/{id}',[CategoryController::class, 'pieChart']);
+
+Route::delete('/categories/delete/{id}', [CategoryController::class,"destroy"]);
+
+

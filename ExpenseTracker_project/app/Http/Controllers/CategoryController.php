@@ -37,6 +37,18 @@ class CategoryController extends Controller
         return $category;
     }
 
+    public function viewCategoriesbyID($id){
+
+        $category=Category::orderBy('categories.created_at','desc')
+        ->join('expenses','expenses.category_id','=','categories.id')
+        ->groupBy('expenses.category_id')
+        ->where('expenses.user_id','=',$id)
+        ->select('categories.*')->get();
+
+
+        return $category;
+    }
+
     public function pieChart($id){
 
         $categories = Expense::where('expenses.user_id','=',$id)
@@ -46,5 +58,11 @@ class CategoryController extends Controller
         ->get();
 
         return $categories;
+    }
+
+    public function destroy($id){
+
+        $category = Category::find($id);
+        $category->delete();
     }
 }

@@ -7,7 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-class ViewCategory extends Component {
+class MyCategory extends Component {
     constructor(props){
         super(props)
         this.state={
@@ -23,9 +23,10 @@ class ViewCategory extends Component {
         this.getCategories();
     }
 
-    // get categories list
+    // get categories list for the logged in user
     getCategories = ()=>{
-        axios.get('/api/categories')
+        let id = localStorage.getItem('id');
+        axios.get('/api/categories/'+id)
         .then(response=>{
             this.setState({category_list:response.data});
         });
@@ -94,6 +95,25 @@ class ViewCategory extends Component {
 
     }
 
+    deleteCategory = (event)=>{
+        let index = event.target.getAttribute('data-key');
+        axios.delete('/api/categories/delete/'+index)
+        .then(response=>{
+
+            var category = this.state.category_list;
+
+            for(var i = 0; i < category.length; i++)
+            {
+                if(category[i].id == index)
+                {
+                    category.splice(i,1);
+                    this.setState({category_list:category});
+                }
+            }
+        });
+
+    }
+
     render(){
         if(localStorage.getItem('email') == null){
             return( <Redirect to={'/Login'} /> )
@@ -102,24 +122,18 @@ class ViewCategory extends Component {
         return(
             <div>
                 <Header/>
-                <h2 style={{ marginBottom: "50px" }}>All Categories</h2>
+                <h2 style={{ marginBottom: "50px" }}>My Categories</h2>
 
                 <div style={{ marginLeft: "135px" }}>
-                    <div className="card bg-light mb-3" 
-                                    style={{ width: "280px", height: "180px", float: "left", overflow: "hidden", marginLeft: "25px", marginBottom: "30px" }}>
-                        <div className="card-header">Add Category</div>
-                        <div className="card-body" style={{ marginTop: "6px"}}>
-                            <h2 className="card-title" style={{ textAlign: "center" }}><button type="button" class="btn btn-secondary btn-circle btn-l" 
-                            style={{ float: "center", fontSize: "40px", borderRadius: "50%", width: "80px", height: "80px" }} onClick={this.handleClickOpen}>+</button> </h2>
-                        </div>
-                    </div>
                 
                 {
                     this.state.category_list.map(cat=>{
                         return(
                             <div className="card bg-light mb-3" 
                                 style={{ width: "280px", height: "180px", float: "left", overflow: "hidden", marginLeft: "25px", marginBottom: "30px" }}>
-                                <div className="card-header">Category</div>
+                                <div className="card-header">Category
+                                <button style={{ float: "right" }} data-key={cat.id} onClick={this.deleteCategory}>x</button>
+                                </div>
                                 <div className="card-body" style={{ marginTop: "20px"}}>
                                     <h2 className="card-title" style={{ textAlign: "center" }}>{cat.category_name}</h2>
                                 </div>
@@ -160,4 +174,4 @@ class ViewCategory extends Component {
     }
 }
 
-export default ViewCategory;
+export default MyCategory;
