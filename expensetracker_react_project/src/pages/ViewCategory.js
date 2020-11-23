@@ -24,6 +24,7 @@ class ViewCategory extends Component {
         this.getCategories();
     }
 
+    // get categories list
     getCategories = ()=>{
         axios.get('/api/categories/')
         .then(response=>{
@@ -31,24 +32,28 @@ class ViewCategory extends Component {
         });
     }
 
+    // onchange 
     onChangeCategoryName = (e) =>{
         this.setState({
             category_name: e.target.value
         });
     }
 
+    // opens the dialog
     handleClickOpen = () => {
         this.setState({
             setOpen: true
         });
     };
 
+    // closes the dialog
     handleClose = () => {
         this.setState({
             setOpen: false
         });
     };
 
+    // adds a new category
     onSubmit = (e) =>{
         this.handleClose();
         e.preventDefault();
@@ -94,10 +99,6 @@ class ViewCategory extends Component {
         if(localStorage.getItem('email') == null){
             return( <Redirect to={'/Login'} /> )
         }
-        // if(this.state.flag == true){
-        //     return( <Redirect to={'/AddCategory'} /> )
-
-        // }
 
         return(
             <div>

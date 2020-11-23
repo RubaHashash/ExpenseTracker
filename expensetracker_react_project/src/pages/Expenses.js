@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
 import Header from './Header';
 import PieChart from './PieChart';
 import {Redirect} from 'react-router-dom';
@@ -40,13 +39,127 @@ class Expenses extends Component{
             this.setState({categories_list:response.data});
         });
         
-
+        //get expenses
         this.getExpensesFromDB();
-
-
+        //get pie chart
         this.getChart();
     }
 
+    // get expenses for table funtion
+    getExpensesFromDB = ()=>{
+        // get expenses
+        let id = localStorage.getItem('id');
+        axios.get('/api/expense/'+id)
+        .then(response=>{
+            this.setState({
+                expenses_list:response.data.data,
+                itemsCountPerPage: response.data.per_page,
+                totalItemsCount: response.data.total,
+                activePage: response.data.current_page
+            });
+        });
+    }
+
+    // sorts the amount in the table
+    handleAmountSort = () => {
+        
+        if (this.state.sort== "(a, b) => a.amount > b.amount ? 1 : -1")
+        {
+            this.setState({ sort: (a, b) => a.amount < b.amount ? 1 : -1 });
+        }
+        else {
+            this.setState({ sort: (a, b) => a.amount > b.amount ? 1 : -1 });
+        }
+       
+    }
+
+    // sort the date in the table
+    handleDateSort = () => {
+       if (this.state.sort== "(a, b) => a.date > b.date ? 1 : -1")
+        {
+            this.setState({ sort: (a, b) => a.date < b.date ? 1 : -1 });
+        }
+        else {
+            this.setState({ sort: (a, b) => a.date > b.date ? 1 : -1 });
+        }
+      
+    }
+
+    // submits the add form
+    onSubmit = (e) =>{
+    this.handleClose();
+    e.preventDefault();
+    const user = localStorage.getItem('id');
+    const form = document.getElementById("addExpForm");
+    const formData = new FormData(form);
+    formData.append('user',user);
+    const headers = {
+        headers:{
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
+            'crossOrigin': true,
+            'Access-Control-Allow-Origin' : '*'
+            }
+        }
+
+    axios.post('/api/addExpense/add', formData, headers)
+    .then(response => {
+        this.setState({
+            loader: '',
+            status: response.data.message,
+        });
+    })
+    .catch(error => {
+        if (error.response) {
+            this.setState({
+                loader: '',
+                status: '',
+            });
+            console.log(error.response);
+          }
+    });
+
+    this.getExpensesFromDB();
+    this.getChart();
+
+    }
+
+    // onchange for the add expense
+    onChangeExpense= (e)=>{
+        this.setState({
+            expense_list: e.target.value
+        });
+    }
+
+    // opens the add dialog
+    handleClickOpen = () => {
+        this.setState({
+            setOpen: true
+        });
+    };
+
+    // closes the add dialog
+    handleClose = () => {
+        this.setState({
+            setOpen: false
+        });
+    };
+    
+    // opens the edit dialog
+    editHandleClickOpen = () => {
+        this.setState({
+            setEditOpen: true
+        });
+    };
+
+    // closes the edit dialog
+    editHandleClose = () => {
+        this.setState({
+            setEditOpen: false
+        });
+    };
+
+    // get the edit data from database
     getEditFormFromDB = (event) =>{
         let index = event.target.getAttribute('data-key');
 
@@ -58,12 +171,14 @@ class Expenses extends Component{
         this.editHandleClickOpen();
     }
 
+    // onchange for the edit form
     onChangeEditExpense= (e)=>{
         this.setState({
             edit_expense_list: e.target.value
         });
     }
 
+    // update data from the edit form
     onSubmitEditForm = (e) =>{
         this.editHandleClose();
         e.preventDefault();
@@ -108,122 +223,7 @@ class Expenses extends Component{
         this.getChart();
     }
 
-    getExpensesFromDB = ()=>{
-        // get expenses
-        let id = localStorage.getItem('id');
-        axios.get('/api/expense/'+id)
-        .then(response=>{
-            this.setState({
-                expenses_list:response.data.data,
-                itemsCountPerPage: response.data.per_page,
-                totalItemsCount: response.data.total,
-                activePage: response.data.current_page
-            });
-        });
-    }
-
-    handleAmountSort = () => {
-        
-        if (this.state.sort== "(a, b) => a.amount > b.amount ? 1 : -1")
-        {
-            this.setState({ sort: (a, b) => a.amount < b.amount ? 1 : -1 });
-        }
-        else {
-            this.setState({ sort: (a, b) => a.amount > b.amount ? 1 : -1 });
-        }
-       
-    }
-    handleDateSort = () => {
-       if (this.state.sort== "(a, b) => a.date > b.date ? 1 : -1")
-        {
-            this.setState({ sort: (a, b) => a.date < b.date ? 1 : -1 });
-        }
-        else {
-            this.setState({ sort: (a, b) => a.date > b.date ? 1 : -1 });
-        }
-      
-  }
-
-  onSubmit = (e) =>{
-    this.handleClose();
-    e.preventDefault();
-    const user = localStorage.getItem('id');
-    const form = document.getElementById("addExpForm");
-    const formData = new FormData(form);
-    formData.append('user',user);
-    const headers = {
-        headers:{
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'application/json',
-            'crossOrigin': true,
-            'Access-Control-Allow-Origin' : '*'
-            }
-        }
-
-    axios.post('/api/addExpense/add', formData, headers)
-    .then(response => {
-        this.setState({
-            loader: '',
-            status: response.data.message,
-        });
-    })
-    .catch(error => {
-        if (error.response) {
-            this.setState({
-                loader: '',
-                status: '',
-            });
-            console.log(error.response);
-          }
-    });
-
-    this.getExpensesFromDB();
-    this.getChart();
-
-}
-
-  onChangeExpense= (e)=>{
-        this.setState({
-            expense_list: e.target.value
-        });
-    }
-
-  handlePageChange(pageNumber) {
-        let id = localStorage.getItem('id'); 
-        axios.get('/api/expense/'+id+'?page='+pageNumber)
-        .then(response=>{
-            this.setState({
-                expenses_list:response.data.data,
-                itemsCountPerPage: response.data.per_page,
-                totalItemsCount: response.data.total,
-                activePage: response.data.current_page
-            });
-        });
-    }
-    editHandleClickOpen = () => {
-        this.setState({
-            setEditOpen: true
-        });
-    };
-
-    editHandleClose = () => {
-        this.setState({
-            setEditOpen: false
-        });
-    };
-
-    handleClickOpen = () => {
-        this.setState({
-            setOpen: true
-        });
-    };
-
-    handleClose = () => {
-        this.setState({
-            setOpen: false
-        });
-    };
-
+    // delete expense
     onDelete=(event)=>{
         let index = event.target.getAttribute('data-key');
         axios.delete('/api/expense/delete/'+index)
@@ -244,6 +244,21 @@ class Expenses extends Component{
         this.getChart();
     }
 
+    // pagination scrolling
+    handlePageChange(pageNumber) {
+        let id = localStorage.getItem('id'); 
+        axios.get('/api/expense/'+id+'?page='+pageNumber)
+        .then(response=>{
+            this.setState({
+                expenses_list:response.data.data,
+                itemsCountPerPage: response.data.per_page,
+                totalItemsCount: response.data.total,
+                activePage: response.data.current_page
+            });
+        });
+    }
+
+    // piechart
     getChart = () =>{
         var id = localStorage.getItem('id');
         axios.get('/api/pieChart/'+id)
