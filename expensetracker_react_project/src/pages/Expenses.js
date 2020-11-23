@@ -27,6 +27,7 @@ class Expenses extends Component{
             pageRangeDisplayed: 3,
             open: false,
             setOpen: false,
+            setEditOpen: false,
 
         }
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -54,7 +55,7 @@ class Expenses extends Component{
             this.setState({edit_expense_list:response.data});
         });
 
-        this.handleClickOpen();
+        this.editHandleClickOpen();
     }
 
     onChangeEditExpense= (e)=>{
@@ -64,7 +65,7 @@ class Expenses extends Component{
     }
 
     onSubmitEditForm = (e) =>{
-        this.handleClose();
+        this.editHandleClose();
         e.preventDefault();
         const index = document.getElementById("edit_id").value;
         const user = localStorage.getItem('id');
@@ -199,6 +200,17 @@ class Expenses extends Component{
             });
         });
     }
+    editHandleClickOpen = () => {
+        this.setState({
+            setEditOpen: true
+        });
+    };
+
+    editHandleClose = () => {
+        this.setState({
+            setEditOpen: false
+        });
+    };
 
     handleClickOpen = () => {
         this.setState({
@@ -349,7 +361,7 @@ class Expenses extends Component{
 
                     {/* dialog for the edit form */}
 
-                    <Dialog open={this.state.setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                    <Dialog open={this.state.setEditOpen} onClose={this.editHandleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Edit Expense</DialogTitle>
                         <DialogContent>
 
@@ -386,7 +398,7 @@ class Expenses extends Component{
                             </div>
 
                             <div className="form-group" style={{ float: "right", marginTop: "30px" }}>
-                                <Button onClick={this.handleClose} color="primary">Cancel</Button>
+                                <Button onClick={this.editHandleClose} color="primary">Cancel</Button>
 
                                 <Button type="submit">Update</Button>
                             </div>
