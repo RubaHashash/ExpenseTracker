@@ -27,7 +27,7 @@ class Expenses extends Component{
             open: false,
             setOpen: false,
             setEditOpen: false,
-
+            search: ''
         }
         this.handlePageChange = this.handlePageChange.bind(this);
     }
@@ -267,19 +267,32 @@ class Expenses extends Component{
         });
     }
 
+    updateSearch(event){
+        this.setState({search: event.target.value.substr(0,20)});
+    }
 
     render(){
         if(localStorage.getItem('email') == null){
             return( <Redirect to={'/Login'} /> )
         }
 
+        let filterExpenses = this.state.expenses_list.filter(
+            (expenseFilter) => {
+                return expenseFilter.category_name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+            }
+        );
+
         return(
             <div>
                 <Header />
                 <h2 style={{ float: "center", marginLeft: "80px" }}>Dashboard</h2>
-
-                <div style={{ float: "left", overflow: "hidden", marginLeft: "70px", marginTop: "25px", width: "45%"}}>
-
+                <div style={{ float: "left", overflow: "hidden", marginLeft: "70px", marginTop: "33px", width: "45%"}}>
+                    
+                    <span role="img" style={{ float: "right", marginLeft: "4px" }}>🔎</span>
+                    <div style={{ width: "150px", height: "40px", float: "right"}}>
+                        <input type="text" className="form-control" placeholder="Search"
+                            value={this.state.search} onChange={this.updateSearch.bind(this)} style={{ height: "30px"}}/>
+                    </div>
                     <table className="table table-striped">
                     <thead>
                         <tr>
@@ -293,7 +306,7 @@ class Expenses extends Component{
                     </thead>
                     <tbody>
                         {
-                            this.state.expenses_list.sort(this.state.sort).map(exp=>{
+                            filterExpenses.sort(this.state.sort).map(exp=>{
                             return(
                                 <tr key={exp.id}>
                                     <th scope="row"></th>
